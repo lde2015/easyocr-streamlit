@@ -127,7 +127,12 @@ if image_file is not None:
 
     reader = easyocr.Reader(code_lang)
     st.write('C')
-    result = reader.readtext(img, paragraph=False)
+    #result = reader.readtext(img, paragraph=False)
+    try:
+        result = reader.readtext(np.array(img), paragraph=False)
+    except:        
+        st.write(sys.exc_info()[0])
+        pass
     st.write('D')
     text = "'''\n"
     for i in range(len(result)):
@@ -137,7 +142,12 @@ if image_file is not None:
     font = cv2.FONT_HERSHEY_SIMPLEX
     color = (255, 0, 0)
     st.write('E')
-    result = reader.readtext(img, paragraph=True)
+    #result = reader.readtext(img, paragraph=True)
+    try:
+        result = reader.readtext(np.array(img), paragraph=True)
+    except:        
+        st.write(sys.exc_info()[0])
+        pass    
     st.write('F')
     try:
         for i in range(len(result)):
@@ -153,7 +163,7 @@ if image_file is not None:
             st.subheader("Détection")
             st.image(RGB_img,width=500)
     except:        
-        print(sys.exc_info()[0])
+        st.write(sys.exc_info()[0])
         pass
 
     with col2:
