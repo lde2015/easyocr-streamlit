@@ -7,9 +7,10 @@ import sys
 
 def load_image(image_file):
 	img = Image.open(image_file)
-    with open(image_file.name, 'wb') as f:
-        f.write(image_file.read())
+
 	return img
+
+
 
 list_lang = ['Abaza - abq',
 'Adyghe - ady',
@@ -118,6 +119,8 @@ if image_file is not None:
    
 
     # OpenCv Read
+    with open(image_file.name, 'wb') as f:
+        f.write(image_file.read())
     img_res = cv2.imread(image_file.name)
 
     col1, col2 = st.columns(2)
