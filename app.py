@@ -131,7 +131,7 @@ if image_file is not None:
     try:
         result = reader.readtext(np.array(img), paragraph=False)
     except:        
-        st.write(sys.exc_info()[0])
+        print(sys.exc_info()[0])
         pass
     st.write('D')
     text = "'''\n"
@@ -146,7 +146,7 @@ if image_file is not None:
     try:
         result = reader.readtext(np.array(img), paragraph=True)
     except:        
-        st.write(sys.exc_info()[0])
+        print(sys.exc_info()[0])
         pass    
     st.write('F')
     try:
@@ -163,7 +163,7 @@ if image_file is not None:
             st.subheader("Détection")
             st.image(RGB_img,width=500)
     except:        
-        st.write(sys.exc_info()[0])
+        print(sys.exc_info()[0])
         pass
 
     with col2:
