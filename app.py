@@ -117,17 +117,18 @@ if image_file is not None:
     img = load_image(image_file)
     st.image(img,width=500)
    
-
+    st.write('A')
     # OpenCv Read
     with open(image_file.name, 'wb') as f:
         f.write(image_file.read())
     img_res = cv2.imread(image_file.name)
-
+    st.write('B')
     col1, col2 = st.columns(2)
 
     reader = easyocr.Reader(code_lang)
-
+    st.write('C')
     result = reader.readtext(img, paragraph=False)
+    st.write('D')
     text = "'''\n"
     for i in range(len(result)):
         text += result[i][1] + " (" + str(np.round(100*result[i][2], 2)) + " %)\n"
@@ -135,8 +136,9 @@ if image_file is not None:
 
     font = cv2.FONT_HERSHEY_SIMPLEX
     color = (255, 0, 0)
-
+    st.write('E')
     result = reader.readtext(img, paragraph=True)
+    st.write('F')
     try:
         for i in range(len(result)):
             top_left = tuple(result[i][0][0])
