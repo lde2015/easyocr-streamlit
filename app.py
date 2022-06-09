@@ -101,10 +101,10 @@ st.set_page_config(page_title='EasyOCR', layout ="wide")
 
 st.title("Détection de texte dans une image")
 
-image_file = st.file_uploader("Upload Images", type=["png","jpg","jpeg"])
-
 lang = st.multiselect("Language(s) :", list_lang, ['English - en', 'French - fr'])
 code_lang = [x.split(" ")[-1] for x in lang]
+
+image_file = st.file_uploader("Upload Images", type=["png","jpg","jpeg"])
 
 if image_file is not None:
 
@@ -116,55 +116,46 @@ if image_file is not None:
     # To View Uploaded Image
     img = load_image(image_file)
     st.image(img,width=500)
-   
-    st.write('A')
+
     # OpenCv Read
     with open(image_file.name, 'wb') as f:
         f.write(image_file.read())
-    img_res = cv2.imread(image_file.name)
-    st.write('B')
+    st.write(image_file.name)
+    img_saved = img.save("img.jpg")
+    #img_res = cv2.imread(image_file.name)
+    img_res = cv2.imread("img.jpg")
+    st.image(img_res,width=500)
+
     col1, col2 = st.columns(2)
 
     reader = easyocr.Reader(code_lang)
-    st.write('C')
-    #result = reader.readtext(img, paragraph=False)
-    try:
-        result = reader.readtext(np.array(img), paragraph=False)
-    except:        
-        print(sys.exc_info()[0])
-        pass
-    st.write('D')
     text = "'''\n"
+
+    result = reader.readtext(img, paragraph=False)
+
     for i in range(len(result)):
         text += result[i][1] + " (" + str(np.round(100*result[i][2], 2)) + " %)\n"
     text += "'''"
 
     font = cv2.FONT_HERSHEY_SIMPLEX
     color = (255, 0, 0)
-    st.write('E')
-    #result = reader.readtext(img, paragraph=True)
-    try:
-        result = reader.readtext(np.array(img), paragraph=True)
-    except:        
-        print(sys.exc_info()[0])
-        pass    
-    st.write('F')
-    try:
-        for i in range(len(result)):
-            top_left = tuple(result[i][0][0])
-            bottom_right = tuple(result[i][0][2])
-            top_right = tuple(result[i][0][1])
-            bottom_left = tuple(result[i][0][3])
 
-            img_res = cv2.rectangle(img_res,top_left,bottom_right,color,7)
-            #img = cv2.putText(img,text,bottom_left, font, 5.5,color,4,cv2.LINE_AA)
-            RGB_img = cv2.cvtColor(img_res, cv2.COLOR_BGR2RGB)
-        with col1:
-            st.subheader("Détection")
-            st.image(RGB_img,width=500)
-    except:        
-        print(sys.exc_info()[0])
-        pass
+    result = reader.readtext(img, paragraph=True)
+
+    for i in range(len(result)):
+        top_left = tuple(result[i][0][0])
+        bottom_right = tuple(result[i][0][2])
+        top_right = tuple(result[i][0][1])
+        bottom_left = tuple(result[i][0][3])
+
+        img_res = cv2.rectangle(img_res,top_left,bottom_right,color,7)
+        #img = cv2.putText(img,text,bottom_left, font, 5.5,color,4,cv2.LINE_AA)
+    
+    RGB_img = cv2.cvtColor(img_res, cv2.COLOR_BGR2RGB)
+
+    with col1:
+        st.subheader("Détection")
+        st.image(RGB_img,width=500)
 
     with col2:
         st.subheader("Texte")
