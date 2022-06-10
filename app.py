@@ -118,9 +118,9 @@ if image_file is not None:
     st.image(img,width=500)
 
     # OpenCv Read
-    with open(image_file.name, 'wb') as f:
-        f.write(image_file.read())
-    st.write(image_file.name)
+    #with open(image_file.name, 'wb') as f:
+    #    f.write(image_file.read())
+    #st.write(image_file.name)
     img_saved = img.save("img.jpg")
     #img_res = cv2.imread(image_file.name)
     img_res = cv2.imread("img.jpg")
@@ -130,7 +130,7 @@ if image_file is not None:
 
     reader = easyocr.Reader(code_lang)
     text = "'''\n"
-
+    st.write("Détection ...")
     result = reader.readtext(img, paragraph=False)
 
     for i in range(len(result)):
