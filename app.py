@@ -131,7 +131,7 @@ if image_file is not None:
     reader = easyocr.Reader(code_lang)
     text = "'''\n"
     st.write("Détection ...")
-    result = reader.readtext("img.jpg", paragraph=False)
+    result = reader.readtext(img, paragraph=False)
 
     for i in range(len(result)):
         text += result[i][1] + " (" + str(np.round(100*result[i][2], 2)) + " %)\n"
@@ -140,7 +140,7 @@ if image_file is not None:
     font = cv2.FONT_HERSHEY_SIMPLEX
     color = (255, 0, 0)
 
-    result = reader.readtext("img.jpg", paragraph=True)
+    result = reader.readtext(img, paragraph=True)
 
     for i in range(len(result)):
         top_left = tuple(result[i][0][0])
