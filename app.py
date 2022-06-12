@@ -124,7 +124,7 @@ if image_file is not None:
     img_saved = img.save("img.jpg")
     #img_res = cv2.imread(image_file.name)
     img_res = cv2.imread("img.jpg")
-    st.image(img_res,width=500)
+    #st.image(img_res,width=500)
 
     col1, col2 = st.columns(2)
 
