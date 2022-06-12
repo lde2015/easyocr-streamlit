@@ -7,10 +7,7 @@ import sys
 
 def load_image(image_file):
 	img = Image.open(image_file)
-
 	return img
-
-
 
 list_lang = ['Abaza - abq',
 'Adyghe - ady',
@@ -121,9 +118,9 @@ if image_file is not None:
     #with open(image_file.name, 'wb') as f:
     #    f.write(image_file.read())
     #st.write(image_file.name)
-    img_saved = img.save("img.jpg")
+    img_saved = img.save("img."+image_file.type)
     #img_res = cv2.imread(image_file.name)
-    img_res = cv2.imread("img.jpg")
+    img_res = cv2.imread("img."+image_file.type)
     #st.image(img_res,width=500)
 
     col1, col2 = st.columns(2)
