@@ -96,7 +96,7 @@ list_lang = ['Abaza - abq',
 
 st.set_page_config(page_title='EasyOCR', layout ="wide")
 
-st.title("Détection de texte dans une image")
+st.title("Text detection with EasyOCR")
 
 lang = st.multiselect("Language(s) :", list_lang, ['English - en', 'French - fr'])
 code_lang = [x.split(" ")[-1] for x in lang]
@@ -106,21 +106,18 @@ image_file = st.file_uploader("Upload Images", type=["png","jpg","jpeg"])
 if image_file is not None:
 
     # To See details
-    file_details = {"filename":image_file.name, "filetype":image_file.type,
-                   "filesize":image_file.size}
-    st.write(file_details)
+    #file_details = {"filename":image_file.name, "filetype":image_file.type,
+    #               "filesize":image_file.size}
+    #st.write(file_details)
 
     # To View Uploaded Image
     img = load_image(image_file)
+    type = image_file.name.split(".")[1]
     st.image(img,width=500)
 
     # OpenCv Read
-    #with open(image_file.name, 'wb') as f:
-    #    f.write(image_file.read())
-    #st.write(image_file.name)
-    img_saved = img.save("img."+image_file.type)
-    #img_res = cv2.imread(image_file.name)
-    img_res = cv2.imread("img."+image_file.type)
+    img_saved = img.save("img."+type)
+    img_res = cv2.imread("img."+type)
     #st.image(img_res,width=500)
 
     col1, col2 = st.columns(2)
