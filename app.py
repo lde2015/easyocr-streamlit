@@ -113,11 +113,12 @@ if image_file is not None:
     # To View Uploaded Image
     img = load_image(image_file)
     type = image_file.name.split(".")[1]
+    filename = "img." + type
     st.image(img,width=500)
 
     # OpenCv Read
-    img_saved = img.save("img."+type)
-    img_res = cv2.imread("img."+type)
+    img_saved = img.save(filename)
+    img_res = cv2.imread(filename)
     #st.image(img_res,width=500)
 
     col1, col2 = st.columns(2)
@@ -125,7 +126,18 @@ if image_file is not None:
     reader = easyocr.Reader(code_lang)
     text = "'''\n"
     st.write("Detection ...")
-    result = reader.readtext("img."+type, paragraph=False)
+    result = reader.readtext(filename, paragraph=False)
+    for i in range(len(result)):
+        top_left = tuple(result[i][0][0])
+        bottom_right = tuple(result[i][0][2])
+        top_right = tuple(result[i][0][1])
+        bottom_left = tuple(result[i][0][3])
+
+        img_res = cv2.rectangle(img_res,top_left,bottom_right,color,7)
+        #img = cv2.putText(img,text,bottom_left, font, 5.5,color,4,cv2.LINE_AA)
+    
+    RGB_img = cv2.cvtColor(img_res, cv2.COLOR_BGR2RGB)
+    st.image(RGB_img,width=500)
 
     for i in range(len(result)):
         text += result[i][1] + " (" + str(np.round(100*result[i][2], 2)) + " %)\n"
@@ -134,8 +146,8 @@ if image_file is not None:
     font = cv2.FONT_HERSHEY_SIMPLEX
     color = (255, 0, 0)
 
-    result = reader.readtext("img."+type, paragraph=True)
-
+    result = reader.readtext(filename, paragraph=True)
+    img_res = cv2.imread(filename)
     for i in range(len(result)):
         top_left = tuple(result[i][0][0])
         bottom_right = tuple(result[i][0][2])
@@ -148,9 +160,9 @@ if image_file is not None:
     RGB_img = cv2.cvtColor(img_res, cv2.COLOR_BGR2RGB)
 
     with col1:
-        st.subheader("Détection")
+        st.subheader("Detection")
         st.image(RGB_img,width=500)
 
     with col2:
-        st.subheader("Texte")
+        st.subheader("Text")
         st.code(text)
