@@ -127,17 +127,6 @@ if image_file is not None:
     text = "'''\n"
     st.write("Detection ...")
     result = reader.readtext(filename, paragraph=False)
-    for i in range(len(result)):
-        top_left = tuple(result[i][0][0])
-        bottom_right = tuple(result[i][0][2])
-        top_right = tuple(result[i][0][1])
-        bottom_left = tuple(result[i][0][3])
-
-        img_res = cv2.rectangle(img_res,top_left,bottom_right,color,7)
-        #img = cv2.putText(img,text,bottom_left, font, 5.5,color,4,cv2.LINE_AA)
-    
-    RGB_img = cv2.cvtColor(img_res, cv2.COLOR_BGR2RGB)
-    st.image(RGB_img,width=500)
 
     for i in range(len(result)):
         text += result[i][1] + " (" + str(np.round(100*result[i][2], 2)) + " %)\n"
@@ -147,7 +136,7 @@ if image_file is not None:
     color = (255, 0, 0)
 
     result = reader.readtext(filename, paragraph=True)
-    img_res = cv2.imread(filename)
+	
     for i in range(len(result)):
         top_left = tuple(result[i][0][0])
         bottom_right = tuple(result[i][0][2])
